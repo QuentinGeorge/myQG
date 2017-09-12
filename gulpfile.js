@@ -41,7 +41,7 @@ var sSrc = "src/",
         out: sDest + "assets/img/"
     },
     oPHP = {
-        in: sSrc + "**/*.php",
+        in: sSrc + "php/**/*",  // all files to copy db.ini with it
         out: sDest,
         plumberOpts: {
             errorHandler: gNotify.onError( fPlumberError( sTaskError = "PHP" ) )
