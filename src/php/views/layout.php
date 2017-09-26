@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="./css/styles.min.css"/>
     </head>
     <body>
+        <header>
+            <h1>Espace personnel</h1>
+        </header>
         <?php include($data['view']); ?>
     </body>
 </html>

@@ -94,7 +94,7 @@ var sSrc = "src/",
     },
     oBrowserSync = {
         initOpts: {
-            proxy: "http://localhost/" + sProjectFolder
+            proxy: "http://localhost/" + sProjectFolder + sDest
         }
     };
 

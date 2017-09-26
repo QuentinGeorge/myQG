@@ -1,3 +1,3 @@
-<header>
-    <h1>Liste des fichiers</h1>
-</header>
+<?php include 'views/upload.php'; ?>
+
+<h2>Liste des fichiers</h2>
