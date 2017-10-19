@@ -21,7 +21,8 @@ class User {
 
         $_SESSION[ 'user' ] = $this->modelsUser->fGetUserDB( $sUser, $sPassword );
         if ( $_SESSION[ 'user' ] !== false ) {
-            return ['view' => 'views/filesindex.php'];
+            header( 'Location:' . PROJECT_PATH . 'index.php?r=file&a=index' );
+            exit;
         } else {
             return [ 'view' => 'views/userlogin.php' ];
         }
