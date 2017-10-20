@@ -22,6 +22,10 @@ class File extends Model {
         }
     }
 
+    public function fGetGroupFiles( $sGroup ) {
+        return $aFiles = array_diff( scandir( FILES_DIRECTORY . $sGroup . '/' ), DIR_SCAN_EXCEPT );
+    }
+
     public function fUploadFile( $sGroup ) {
         if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
             if ( isset( $_FILES[ 'file' ] ) ) {
@@ -29,8 +33,8 @@ class File extends Model {
                     $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
                     $aTypeParts = explode( '/', $_FILES[ 'file' ][ 'type' ] );
                     $sExt = '.' . $aTypeParts[ count( $aTypeParts ) -1 ];
-                    $sFilename = 'f' . time() . rand( 1000, 9999 ) . $sExt;
-                    $sDest = './data/' . $sGroup . '/' . $sFilename;
+                    $sFileName = 'f' . time() . rand( 1000, 9999 ) . $sExt;
+                    $sDest = FILES_DIRECTORY . $sGroup . '/' . $sFileName;
 
                     if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
                         $sFeedback = 'Le fichier a été télécharger';
