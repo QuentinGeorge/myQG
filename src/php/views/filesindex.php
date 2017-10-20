@@ -7,7 +7,7 @@
     <form action="index.php" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Envoyer un fichier dans ce groupe</legend>
-            <input type="hidden" name="MAX_FILE_SIZE" value="3000000">
+            <input type="hidden" name="MAX_FILE_SIZE" value="<?= MAX_UPLOAD_SIZE ?>">
             <input type="file" name="file">
             <input type="hidden" name="a" value="upload">
             <input type="hidden" name="r" value="file">
@@ -18,9 +18,13 @@
             <?php endif; ?>
         </fieldset>
     </form>
+    <?php if ( !empty( $_SESSION[ 'fileslist' ][ $sGroup ] ) ): ?>
     <ul>
         <?php foreach ( $_SESSION[ 'fileslist' ][ $sGroup ] as $sFileName ): ?>
-            <li><a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName ?>"><?= $sFileName ?></a></li>
+            <li><a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName ?>" download="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName ?>"><?= $sFileName ?></a></li>
         <?php endforeach; ?>
     </ul>
+    <?php else: ?>
+        <p>Ce groupe ne contient aucuns fichiers</p>
+    <?php endif; ?>
 <?php endforeach; ?>

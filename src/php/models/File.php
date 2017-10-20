@@ -29,7 +29,7 @@ class File extends Model {
     public function fUploadFile( $sGroup ) {
         if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
             if ( isset( $_FILES[ 'file' ] ) ) {
-                if ( !$_FILES[ 'file' ][ 'error' ] ) {
+                if ( !$_FILES[ 'file' ][ 'error' ] && $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
                     $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
                     $aTypeParts = explode( '/', $_FILES[ 'file' ][ 'type' ] );
                     $sExt = '.' . $aTypeParts[ count( $aTypeParts ) -1 ];
@@ -39,11 +39,13 @@ class File extends Model {
                     if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
                         $sFeedback = 'Le fichier a été télécharger';
                     } else {
-                        $sFeedback = 'Le fichier n\'a pus être télécharger';
+                        $sFeedback = 'Le fichier n´a pus être télécharger';
                     }
-
-                    return $sFeedback;
+                } else {
+                    $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . ' GO';
                 }
+
+                return $sFeedback;
             }
         }
     }
