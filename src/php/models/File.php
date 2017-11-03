@@ -68,20 +68,24 @@ class File extends Model {
     public function fUploadFile( $sGroup ) {
         if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
             if ( isset( $_FILES[ 'file' ] ) ) {
-                if ( !$_FILES[ 'file' ][ 'error' ] && $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
-                    $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
-                    $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
-                    $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
-                    $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
-                    $sDest = FILES_DIRECTORY . $sGroup . '/' . $sFileName;
+                if ( !$_FILES[ 'file' ][ 'error' ] ) {
+                    if ( $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
+                        $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
+                        $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
+                        $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
+                        $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
+                        $sDest = FILES_DIRECTORY . $sGroup . '/' . $sFileName;
 
-                    if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
-                        $sFeedback = 'Le fichier a été télécharger';
+                        if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
+                            $sFeedback = 'Le fichier a été télécharger';
+                        } else {
+                            $sFeedback = 'Le fichier n´a pus être télécharger';
+                        }
                     } else {
-                        $sFeedback = 'Le fichier n´a pus être télécharger';
+                        $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . ' GO';
                     }
                 } else {
-                    $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . ' GO';
+                    $sFeedback = 'Aucun fichier séléctionner';
                 }
 
                 return $sFeedback;
