@@ -20,6 +20,10 @@ define( 'GROUPS_ACCESS', array(
 ) );
 
 // Files types
-define( 'IMG_FILES_EXT', array( 'jpg', 'jpeg', 'bmp', 'tiff', 'svg', 'gif', 'png' ) );
+define( 'IMG_FILES_EXT', array( 'jpg', 'jpeg', 'bmp', 'png', 'gif', 'svg' ) );
 define( 'AUDIO_FILES_EXT', array( 'mp3', 'wav', 'wma', 'm4a', 'flac' ) );
 define( 'VIDEO_FILES_EXT', array( 'avi', 'mov', 'wmv', 'mpg', 'mpeg', 'm4v', 'mkv', 'mp4' ) );
+
+// Thumbs
+define( 'THUMBS_DIRECTORY', 'thumb/' );
+define( 'THUMB_WIDTH', 320 ); // px

@@ -65,6 +65,28 @@ class File extends Model {
         return $aFiles;
     }
 
+    public function fCreateThumbnail( $sDirectory, $sFile ) {
+        if ( preg_match( '/[.](jpg|jpeg)$/', $sFile ) ) {
+            $oImg = imagecreatefromjpeg( $sDirectory . $sFile );
+        } else if ( preg_match( '/[.](bmp)$/', $sFile ) ) {
+            $oImg = imagecreatefrombmp( $sDirectory . $sFile );
+        } else if ( preg_match( '/[.](png)$/', $sFile ) ) {
+            $oImg = imagecreatefrompng( $sDirectory . $sFile );
+        } else if ( preg_match( '/[.](gif)$/', $sFile ) ) {
+            $oImg = imagecreatefromgif( $sDirectory . $sFile );
+        }
+
+        $iOriginalWidth = imagesx( $oImg );
+        $iOriginalHeight = imagesy( $oImg );
+        $iThumbWidth = THUMB_WIDTH;
+        $iThumbHeight = floor( $iOriginalHeight * ( THUMB_WIDTH / $iOriginalWidth ) );
+
+        $oThumbImg = imagecreatetruecolor( $iThumbWidth, $iThumbHeight );
+        imagecopyresized( $oThumbImg, $oImg, 0, 0, 0, 0, $iThumbWidth, $iThumbHeight, $iOriginalWidth, $iOriginalHeight );
+
+        imagejpeg( $oThumbImg, $sDirectory . THUMBS_DIRECTORY . $sFile );
+    }
+
     public function fUploadFile( $sGroup ) {
         if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
             if ( isset( $_FILES[ 'file' ] ) ) {
@@ -74,9 +96,11 @@ class File extends Model {
                         $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
                         $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
                         $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
-                        $sDest = FILES_DIRECTORY . $sGroup . '/' . $sFileName;
+                        $sDirectory = FILES_DIRECTORY . $sGroup . '/';
+                        $sDest = $sDirectory . $sFileName;
 
                         if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
+                            // $this->fCreateThumbnail( $sDirectory, $sFileName );
                             $sFeedback = 'Le fichier a été télécharger';
                         } else {
                             $sFeedback = 'Le fichier n´a pus être télécharger';
