@@ -22,8 +22,47 @@ class File extends Model {
         }
     }
 
+    public function fGetFileType( $sFile ) {
+        $aNameParts = explode( '.', $sFile );
+        $sExt = $aNameParts[ count( $aNameParts ) -1 ];
+        // Check if is img
+        foreach ( IMG_FILES_EXT as $sImgExt ) {
+            if ( $sImgExt === $sExt ) {
+                return 'img';
+            }
+        }
+        // Check if is audio
+        foreach ( AUDIO_FILES_EXT as $sAudioExt ) {
+            if ( $sAudioExt === $sExt ) {
+                return 'audio';
+            }
+        }
+        // Check if is video
+        foreach ( VIDEO_FILES_EXT as $sVideoExt ) {
+            if ( $sVideoExt === $sExt ) {
+                return 'video';
+            }
+        }
+
+        return 'other';
+    }
+
     public function fGetGroupFiles( $sGroup ) {
-        return $aFiles = array_diff( scandir( FILES_DIRECTORY . $sGroup . '/' ), DIR_SCAN_EXCEPT );
+        // Get all files by ascending name. Because of the prefixe the lasted uploaded file will be the first of the list.
+        $aFiles = array_diff( scandir( FILES_DIRECTORY . $sGroup . '/', 1 ), DIR_SCAN_EXCEPT );
+
+        // Prepare files array
+        foreach ( $aFiles as $key => $sPrefixedFileName ) {
+            // Unprefix file to retreview the original name
+            $aNameParts = explode( FILES_NAME_SEPARATOR, $sPrefixedFileName );
+            $sUnPrefixedFileName = $aNameParts[ count( $aNameParts ) -1 ];
+            // Get the file type
+            $sFileType = $this->fGetFileType( $sPrefixedFileName );
+            // Push all informations in array
+            $aFiles[ $key ] = array( 'servername' => $sPrefixedFileName, 'originalname' => $sUnPrefixedFileName, 'type' => $sFileType );
+        }
+
+        return $aFiles;
     }
 
     public function fUploadFile( $sGroup ) {
@@ -31,9 +70,9 @@ class File extends Model {
             if ( isset( $_FILES[ 'file' ] ) ) {
                 if ( !$_FILES[ 'file' ][ 'error' ] && $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
                     $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
-                    $aTypeParts = explode( '/', $_FILES[ 'file' ][ 'type' ] );
-                    $sExt = '.' . $aTypeParts[ count( $aTypeParts ) -1 ];
-                    $sFileName = 'f' . time() . rand( 1000, 9999 ) . $sExt;
+                    $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
+                    $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
+                    $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
                     $sDest = FILES_DIRECTORY . $sGroup . '/' . $sFileName;
 
                     if ( move_uploaded_file( $sTmpPath, $sDest ) ) {

@@ -21,7 +21,7 @@
     <?php if ( !empty( $_SESSION[ 'fileslist' ][ $sGroup ] ) ): ?>
     <ul>
         <?php foreach ( $_SESSION[ 'fileslist' ][ $sGroup ] as $sFileName ): ?>
-            <li><a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName ?>" download="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName ?>"><?= $sFileName ?></a></li>
+            <li><a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>" download="<?= $sFileName[ 'originalname' ] ?>"><?= $sFileName[ 'originalname' ] ?></a></li>
         <?php endforeach; ?>
     </ul>
     <?php else: ?>
