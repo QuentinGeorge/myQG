@@ -59,7 +59,7 @@ class File extends Model {
             // Get the file type
             $sFileType = $this->fGetFileType( $sPrefixedFileName );
             // Push all informations in array
-            $aFiles[ $key ] = array( 'servername' => $sPrefixedFileName, 'originalname' => $sUnPrefixedFileName, 'type' => $sFileType );
+            $aFiles[ $key ] = array( 'servername' => $sPrefixedFileName, 'originalname' => $sUnPrefixedFileName, 'type' => $sFileType, 'thumb' => THUMBS_DIRECTORY . '/' . $sPrefixedFileName );
         }
 
         return $aFiles;
@@ -74,6 +74,8 @@ class File extends Model {
             $oImg = imagecreatefrompng( $sDirectory . $sFile );
         } else if ( preg_match( '/[.](gif)$/', $sFile ) ) {
             $oImg = imagecreatefromgif( $sDirectory . $sFile );
+        } else {
+            return;
         }
 
         $iOriginalWidth = imagesx( $oImg );

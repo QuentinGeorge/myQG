@@ -21,7 +21,12 @@
     <?php if ( !empty( $_SESSION[ 'fileslist' ][ $sGroup ] ) ): ?>
     <ul>
         <?php foreach ( $_SESSION[ 'fileslist' ][ $sGroup ] as $sFileName ): ?>
-            <li><a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>" download="<?= $sFileName[ 'originalname' ] ?>"><?= $sFileName[ 'originalname' ] ?></a></li>
+            <li>
+                <p><?= $sFileName[ 'originalname' ] ?></p>
+                <img src="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'thumb' ] ?>" alt="<?= $sFileName[ 'originalname' ] ?>">
+                <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>">Afficher</a>
+                <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>" download="<?= $sFileName[ 'originalname' ] ?>">Télécharger</a>
+            </li>
         <?php endforeach; ?>
     </ul>
     <?php else: ?>
