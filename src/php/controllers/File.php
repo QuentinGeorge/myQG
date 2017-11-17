@@ -11,6 +11,7 @@ class File {
     }
 
     public function index() {
+        $this->modelsFile->fCreateMissingFilesFolders();
         $_SESSION[ 'user' ][ 'groups' ] = $this->modelsFile->fGetAuthorizedGroupsFilesByUserName();
         $_SESSION[ 'fileslist' ] = [];
         foreach ( $_SESSION[ 'user' ][ 'groups' ] as $value ) {

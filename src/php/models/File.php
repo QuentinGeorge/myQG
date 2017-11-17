@@ -4,6 +4,17 @@ namespace Models;
 use Models\Model as Model;
 
 class File extends Model {
+    public function fCreateMissingFilesFolders() {
+        if ( !file_exists( FILES_DIRECTORY ) && !is_dir( FILES_DIRECTORY ) ) {
+            mkdir( FILES_DIRECTORY );
+        }
+        foreach ( GROUPS_ACCESS as $key => $value ) {
+            if ( !file_exists( FILES_DIRECTORY . '/' . $key ) && !is_dir( FILES_DIRECTORY . '/' . $key ) ) {
+                mkdir( FILES_DIRECTORY . '/' . $key );
+            }
+        }
+    }
+
     public function fGetAuthorizedGroupsFilesByUserName() {
         $aAccessiblesGroups = [];
 

@@ -22,6 +22,7 @@ define( 'THUMBS_DIRECTORY', 'thumb' );
 define( 'THUMB_WIDTH', 320 ); // px
 
 // Tools
+define( 'IMG_DIRECTORY', './assets/img/' );
 define( 'FILES_DIRECTORY', './data/' );
 define( 'DIR_SCAN_EXCEPT', array( '.', '..', THUMBS_DIRECTORY ) );
 define( 'SIZE_CONVERTION_UNIT', 1024 * 1024 * 1024 ); // GO

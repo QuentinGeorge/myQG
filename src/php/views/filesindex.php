@@ -23,8 +23,18 @@
         <?php foreach ( $_SESSION[ 'fileslist' ][ $sGroup ] as $sFileName ): ?>
             <li>
                 <p><?= $sFileName[ 'originalname' ] ?></p>
-                <img src="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'thumb' ] ?>" alt="<?= $sFileName[ 'originalname' ] ?>">
-                <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>">Afficher</a>
+                <?php if ( file_exists( FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'thumb' ] ) ): ?>
+                    <img src="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'thumb' ] ?>" alt="<?= $sFileName[ 'originalname' ] ?>">
+                <?php elseif ( $sFileName[ 'type' ] === 'audio' ): ?>
+                    <img src="<?= IMG_DIRECTORY . '/thumb-audio.svg' ?>" alt="Casque audio avec une vague sonore au milieu" width="<?= THUMB_WIDTH ?>">
+                <?php elseif ( $sFileName[ 'type' ] === 'video' ): ?>
+                    <img src="<?= IMG_DIRECTORY . '/thumb-video.svg' ?>" alt="Pelliculle de film" width="<?= THUMB_WIDTH ?>">
+                <?php else: ?>
+                    <img src="<?= IMG_DIRECTORY . '/thumb-file.svg' ?>" alt="Icone de fichier représentée par une feuille avec une flèche vers le bas" width="<?= THUMB_WIDTH ?>">
+                <?php endif; ?>
+                <?php if ( $sFileName[ 'type' ] !== 'other' ): ?>
+                    <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>">Afficher/Lire</a>
+                <?php endif; ?>
                 <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>" download="<?= $sFileName[ 'originalname' ] ?>">Télécharger</a>
             </li>
         <?php endforeach; ?>
