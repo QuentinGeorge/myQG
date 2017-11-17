@@ -36,6 +36,15 @@
                     <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>">Afficher/Lire</a>
                 <?php endif; ?>
                 <a href="<?= FILES_DIRECTORY . $sGroup . '/' . $sFileName[ 'servername' ] ?>" download="<?= $sFileName[ 'originalname' ] ?>">Télécharger</a>
+                <?php if ( $_SESSION[ 'user' ][ 'name' ] === ADMIN_NAME ): ?>
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="a" value="delete">
+                        <input type="hidden" name="r" value="file">
+                        <input type="hidden" name="group" value="<?= $sGroup ?>">
+                        <input type="hidden" name="file" value="<?= $sFileName[ 'servername' ] ?>">
+                        <button type="submit">Supprimer du serveur</button>
+                    </form>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>

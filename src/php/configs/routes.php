@@ -6,4 +6,5 @@ return [
     'get_logout' => 'GET/getLogout/user',
     'get_files' => 'GET/index/file',
     'upload_file' => 'POST/upload/file',
+    'delete_file' => 'POST/delete/file',
 ];

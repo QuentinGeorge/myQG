@@ -28,4 +28,13 @@ class File {
         header( 'Location:' . PROJECT_PATH . 'index.php?r=file&a=index' );
         exit;
     }
+
+    public function delete() {
+        if ( file_exists( $_POST[ 'group' ] ) && file_exists( $_POST[ 'file' ] ) ) {
+            $this->modelsFile->fDeleteFile( $_POST[ 'group' ], $_POST[ 'file' ] );
+        }
+
+        header( 'Location:' . PROJECT_PATH . 'index.php?r=file&a=index' );
+        exit;
+    }
 }

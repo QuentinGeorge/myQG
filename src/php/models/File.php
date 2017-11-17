@@ -134,4 +134,20 @@ class File extends Model {
             }
         }
     }
+
+    public function fDeleteFile( $sGroup, $sFile ) {
+        $sGroupDir = FILES_DIRECTORY . $sGroup . '/';
+        $sFilePath = $sGroupDir . $sFile;
+        $sThumbPath = $sGroupDir . THUMBS_DIRECTORY . '/' . $sFile;
+
+        // Delete the file
+        if ( file_exists( $sFilePath ) ) {
+            unlink( $sFilePath );
+        }
+
+        // Delete associate thumbnail
+        if ( file_exists( $sThumbPath ) ) {
+            unlink( $sThumbPath );
+        }
+    }
 }
