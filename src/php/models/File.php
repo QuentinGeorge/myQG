@@ -84,7 +84,12 @@ class File extends Model {
         $oThumbImg = imagecreatetruecolor( $iThumbWidth, $iThumbHeight );
         imagecopyresized( $oThumbImg, $oImg, 0, 0, 0, 0, $iThumbWidth, $iThumbHeight, $iOriginalWidth, $iOriginalHeight );
 
-        imagejpeg( $oThumbImg, $sDirectory . THUMBS_DIRECTORY . $sFile );
+        // If thumb directory doesn't exist, create it
+        if ( !file_exists( $sDirectory . THUMBS_DIRECTORY ) && !is_dir( $sDirectory . THUMBS_DIRECTORY ) ) {
+            mkdir( $sDirectory . THUMBS_DIRECTORY );
+        }
+
+        imagejpeg( $oThumbImg, $sDirectory . THUMBS_DIRECTORY . '/' . $sFile );
     }
 
     public function fUploadFile( $sGroup ) {
@@ -100,7 +105,7 @@ class File extends Model {
                         $sDest = $sDirectory . $sFileName;
 
                         if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
-                            // $this->fCreateThumbnail( $sDirectory, $sFileName );
+                            $this->fCreateThumbnail( $sDirectory, $sFileName );
                             $sFeedback = 'Le fichier a été télécharger';
                         } else {
                             $sFeedback = 'Le fichier n´a pus être télécharger';
