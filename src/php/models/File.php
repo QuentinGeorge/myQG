@@ -84,7 +84,7 @@ class File extends Model {
         $iThumbHeight = floor( $iOriginalHeight * ( THUMB_WIDTH / $iOriginalWidth ) );
 
         $oThumbImg = imagecreatetruecolor( $iThumbWidth, $iThumbHeight );
-        imagecopyresized( $oThumbImg, $oImg, 0, 0, 0, 0, $iThumbWidth, $iThumbHeight, $iOriginalWidth, $iOriginalHeight );
+        imagecopyresampled( $oThumbImg, $oImg, 0, 0, 0, 0, $iThumbWidth, $iThumbHeight, $iOriginalWidth, $iOriginalHeight );
 
         // If thumb directory doesn't exist, create it
         if ( !file_exists( $sDirectory . THUMBS_DIRECTORY ) && !is_dir( $sDirectory . THUMBS_DIRECTORY ) ) {
