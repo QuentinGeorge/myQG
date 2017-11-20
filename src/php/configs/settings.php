@@ -1,6 +1,4 @@
 <?php
-
-
 define( 'DB_INI_FILE', 'configs/db.ini' );
 define( 'PROJECT_PATH', 'http://homestead.app/myQG/build/' );
 
@@ -29,3 +27,10 @@ define( 'SIZE_CONVERTION_UNIT', 1024 * 1024 * 1024 ); // GO
 define( 'MAX_UPLOAD_SIZE', 1 * SIZE_CONVERTION_UNIT );  // 1 go
 define( 'FILES_NAME_SEPARATOR', '~' );
 define( 'FILES_NAME_SEPARATOR_REPLACEMENT_CHAR', '-' );
+
+// PHP's errors (disable in production)
+function fCustomPHPErorrs() {
+    die( 'Ce que vous cherchez n’est pas ici' );
+}
+
+set_error_handler( "fCustomPHPErorrs", E_ALL );

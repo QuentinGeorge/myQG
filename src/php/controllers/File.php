@@ -35,6 +35,6 @@ class File {
         }
 
         header( 'Location:' . PROJECT_PATH . 'index.php?r=file&a=index' );
-        // exit;
+        exit;
     }
 }
