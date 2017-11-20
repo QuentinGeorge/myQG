@@ -11,6 +11,7 @@ class User {
     }
 
     public function getLogin() {
+        $_SESSION[ 'logError' ] = '';
 
         return [ 'view' => 'views/userlogin.php' ];
     }
@@ -24,6 +25,7 @@ class User {
             header( 'Location:' . PROJECT_PATH . 'index.php?r=file&a=index' );
             exit;
         } else {
+            $_SESSION[ 'logError' ] = 'Nom d´utilisateur ou mot de passe incorrect';
             return [ 'view' => 'views/userlogin.php' ];
         }
     }

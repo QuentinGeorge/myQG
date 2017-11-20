@@ -8,3 +8,6 @@
     <input type="hidden" name="r" value="user">
     <input type="submit" value="Envoyer">
 </form>
+<?php if ( $_SESSION[ 'logError' ] !== '' ): ?>
+    <p><?= $_SESSION[ 'logError' ] ?></p>
+<?php endif; ?>
