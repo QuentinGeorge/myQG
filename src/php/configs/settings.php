@@ -1,6 +1,7 @@
 <?php
 define( 'DB_INI_FILE', 'configs/db.ini' );
 define( 'PROJECT_PATH', 'http://homestead.app/myQG/build/' );
+// define( 'PROJECT_PATH', 'http://www.quentin-george.com/myQG/' );
 
 // Groups name & access
 define( 'ADMIN_NAME', 'quentin' );
@@ -23,14 +24,8 @@ define( 'THUMB_WIDTH', 320 ); // px
 define( 'IMG_DIRECTORY', './assets/img/' );
 define( 'FILES_DIRECTORY', './data/' );
 define( 'DIR_SCAN_EXCEPT', array( '.', '..', THUMBS_DIRECTORY ) );
-define( 'SIZE_CONVERTION_UNIT', 1024 * 1024 * 1024 ); // GO
-define( 'MAX_UPLOAD_SIZE', 1 * SIZE_CONVERTION_UNIT );  // 1 go
+define( 'SIZE_CONVERTION_UNIT', 1024 * 1024 ); // MO
+define( 'MAX_UPLOAD_SIZE', 126 * SIZE_CONVERTION_UNIT );  // 800 mo
+define( 'UPLOAD_UNIT', 'MO' );
 define( 'FILES_NAME_SEPARATOR', '~' );
 define( 'FILES_NAME_SEPARATOR_REPLACEMENT_CHAR', '-' );
-
-// PHP's errors (disable in production)
-function fCustomPHPErorrs() {
-    die( 'Ce que vous cherchez n’est pas ici' );
-}
-
-set_error_handler( "fCustomPHPErorrs", E_ALL );
