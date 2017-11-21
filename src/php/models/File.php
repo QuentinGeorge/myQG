@@ -120,8 +120,17 @@ class File extends Model {
             if ( isset( $_FILES[ 'file' ] ) ) {
                 if ( !$_FILES[ 'file' ][ 'error' ] ) {
                     if ( $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
+                        // Now check if we have free space to save the file
                         $iUsedSpace = $this->fCheckFolderSize( FILES_DIRECTORY );
-                        if ( $iUsedSpace + $_FILES[ 'file' ][ 'size' ] < MAX_HDD_ALLOWED_SPACE ) {
+                        $iFreeServerSpace = disk_free_space( FILES_DIRECTORY ); // server hdd capacity
+                        $iRemainFreeSpace = 0;
+                        if ( $iFreeServerSpace >= MAX_HDD_ALLOWED_SPACE ) {
+                            $iRemainFreeSpace = MAX_HDD_ALLOWED_SPACE;
+                        } else {
+                            $iRemainFreeSpace = $iFreeServerSpace;
+                        }
+                        if ( $iUsedSpace + $_FILES[ 'file' ][ 'size' ] < $iRemainFreeSpace ) {
+                            // Now copy the file on the server
                             $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
                             $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
                             $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
