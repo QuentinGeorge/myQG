@@ -122,14 +122,7 @@ class File extends Model {
                     if ( $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
                         // Now check if we have free space to save the file
                         $iUsedSpace = $this->fCheckFolderSize( FILES_DIRECTORY );
-                        $iFreeServerSpace = disk_free_space( FILES_DIRECTORY ); // server hdd capacity
-                        $iRemainFreeSpace = 0;
-                        if ( $iFreeServerSpace >= MAX_HDD_ALLOWED_SPACE ) {
-                            $iRemainFreeSpace = MAX_HDD_ALLOWED_SPACE;
-                        } else {
-                            $iRemainFreeSpace = $iFreeServerSpace;
-                        }
-                        if ( $iUsedSpace + $_FILES[ 'file' ][ 'size' ] < $iRemainFreeSpace ) {
+                        if ( $iUsedSpace + $_FILES[ 'file' ][ 'size' ] < MAX_HDD_ALLOWED_SPACE ) {
                             // Now copy the file on the server
                             $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
                             $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
