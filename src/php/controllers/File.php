@@ -30,7 +30,7 @@ class File {
     }
 
     public function delete() {
-        if ( $_SESSION[ 'user' ][ 'name' ] === ADMIN_NAME && file_exists( $_POST[ 'group' ] ) && file_exists( $_POST[ 'file' ] ) ) {
+        if ( $_SESSION[ 'user' ][ 'name' ] === ADMIN_NAME && isset( $_POST[ 'group' ] ) && isset( $_POST[ 'file' ] ) ) {
             $this->modelsFile->fDeleteFile( $_POST[ 'group' ], $_POST[ 'file' ] );
         }
 
