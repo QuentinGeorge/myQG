@@ -105,23 +105,37 @@ class File extends Model {
         imagejpeg( $oThumbImg, $sDirectory . THUMBS_DIRECTORY . '/' . $sFile );
     }
 
+    public function fCheckFolderSize( $sDir ) {
+        $iSize = 0;
+
+        foreach ( glob( rtrim( $sDir, '/' ) . '/*', GLOB_NOSORT ) as $sEach ) {
+            $iSize += is_file( $sEach ) ? filesize( $sEach ) : $this->fCheckFolderSize( $sEach );
+        }
+
+        return $iSize;
+    }
+
     public function fUploadFile( $sGroup ) {
         if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
             if ( isset( $_FILES[ 'file' ] ) ) {
                 if ( !$_FILES[ 'file' ][ 'error' ] ) {
                     if ( $_FILES[ 'file' ][ 'size' ] < MAX_UPLOAD_SIZE ) {
-                        $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
-                        $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
-                        $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
-                        $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
-                        $sDirectory = FILES_DIRECTORY . $sGroup . '/';
-                        $sDest = $sDirectory . $sFileName;
-
-                        if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
-                            $this->fCreateThumbnail( $sDirectory, $sFileName );
-                            $sFeedback = 'Le fichier a été télécharger';
+                        $iUsedSpace = $this->fCheckFolderSize( FILES_DIRECTORY );
+                        if ( $iUsedSpace + $_FILES[ 'file' ][ 'size' ] < MAX_HDD_ALLOWED_SPACE ) {
+                            $sTmpPath = $_FILES[ 'file' ][ 'tmp_name' ];
+                            $sIDPrefix = 'f' . time() . rand( 1000, 9999 );
+                            $sOriginalName = str_replace( FILES_NAME_SEPARATOR, FILES_NAME_SEPARATOR_REPLACEMENT_CHAR, $_FILES[ 'file' ][ 'name' ] ); // to be sure FILES_NAME_SEPARATOR isn't used in the original name because it's used later as separator
+                            $sFileName = $sIDPrefix . FILES_NAME_SEPARATOR . $sOriginalName;
+                            $sDirectory = FILES_DIRECTORY . $sGroup . '/';
+                            $sDest = $sDirectory . $sFileName;
+                            if ( move_uploaded_file( $sTmpPath, $sDest ) ) {
+                                $this->fCreateThumbnail( $sDirectory, $sFileName );
+                                $sFeedback = 'Le fichier a été télécharger';
+                            } else {
+                                $sFeedback = 'Le fichier n´a pus être télécharger';
+                            }
                         } else {
-                            $sFeedback = 'Le fichier n´a pus être télécharger';
+                            $sFeedback = 'La limite d´espace disponible sur le serveur a été atteinte';
                         }
                     } else {
                         $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . '&nbsp;' . UPLOAD_UNIT;
