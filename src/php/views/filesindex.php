@@ -13,6 +13,7 @@
             <input type="hidden" name="r" value="file">
             <input type="hidden" name="group" value="<?= $sGroup ?>">
             <button type="submit">Envoyer le fichier</button>
+            <p><?= 'Taille max&nbsp;: ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . '&nbsp;' . UPLOAD_UNIT ?></p>
             <?php if ( !empty( $_SESSION[ 'uploadfeedback' ][ $sGroup ] ) ): ?>
                 <p><?= $_SESSION[ 'uploadfeedback' ][ $sGroup ] ?></p>
             <?php endif; ?>

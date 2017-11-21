@@ -124,7 +124,7 @@ class File extends Model {
                             $sFeedback = 'Le fichier n´a pus être télécharger';
                         }
                     } else {
-                        $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . UPLOAD_UNIT;
+                        $sFeedback = 'La taille du fichier dépasse la limite autorisée de ' . MAX_UPLOAD_SIZE / SIZE_CONVERTION_UNIT . '&nbsp;' . UPLOAD_UNIT;
                     }
                 } else {
                     $sFeedback = 'Aucun fichier séléctionner';
