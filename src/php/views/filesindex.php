@@ -1,6 +1,8 @@
-<h2>Bienvenue utilisateur <?= ucfirst( $_SESSION[ 'user' ][ 'name' ] ) ?></h2>
-
-<a href="index.php?r=user&a=getLogout">Déconnexion</a>
+<header>
+    <h1 class="main-title hidden">Espace privé</h1>
+    <h2>Bienvenue utilisateur <?= ucfirst( $_SESSION[ 'user' ][ 'name' ] ) ?></h2>
+    <a href="index.php?r=user&a=getLogout">Déconnexion</a>
+</header>
 
 <?php foreach ( $_SESSION[ 'user' ][ 'groups' ] as $sGroup ): ?>
     <h3>Liste des fichiers du groupe <?= ucfirst( $sGroup ) ?></h3>

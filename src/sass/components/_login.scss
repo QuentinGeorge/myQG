@@ -1,0 +1,22 @@
+// login page specific styles
+
+.login-title, .page-login {
+    text-align: center;
+}
+
+.login-title {
+    margin-bottom: 2.5rem;
+}
+
+.page-login .form {
+    margin-top: 1.5rem;
+    &__input {
+        display: block;
+        max-width: 200px;
+        width: 100%;
+        margin: .25rem auto .75rem;
+    }
+    &__submit {
+        margin-top: .5rem;
+    }
+}

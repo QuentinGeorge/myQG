@@ -1,1 +1,76 @@
 // Styles base elements
+
+html {
+    font: normal 16px/1.5 $ptSansStack;
+    color: $cLaborText;
+    background-color: $cMainBackground;
+}
+
+body {
+    line-height: inherit;
+}
+
+a {
+    color: $cLink;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+img {
+    display: block;
+}
+
+svg {
+    fill: currentColor;
+}
+
+abbr {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.6rem;
+    margin-bottom: .8rem;
+    font-family: $bariolStack;
+    line-height: 1;
+}
+
+h1 {
+    font-size: 2.827rem;
+}
+
+h2 {
+    font-size: 1.999rem;
+}
+
+h3 {
+    font-size: 1.414rem;
+}
+
+input, button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 0 .4rem;
+}
+
+.button {
+    padding: .2rem .4rem;
+}
+
+fieldset {
+    padding: 2rem;
+    background-color: $cFieldsetBackground;
+    @include clearFix;
+}
+
+legend {
+    float: left;
+    width: 100%;
+    margin-bottom: 1rem;
+}

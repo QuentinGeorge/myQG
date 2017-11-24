@@ -12,9 +12,8 @@
         <link rel="stylesheet" href="./css/styles.min.css"/>
     </head>
     <body>
-        <header>
-            <h1>Espace privé</h1>
-        </header>
-        <?php include( $data[ 'view' ] ); ?>
+        <div class="page-wrapper">
+            <?php include( $data[ 'view' ] ); ?>
+        </div>
     </body>
 </html>

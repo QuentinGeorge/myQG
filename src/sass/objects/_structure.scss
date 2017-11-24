@@ -1,1 +1,17 @@
 // Structure elements
+
+body {
+    min-width: $sMainMinSize;
+    max-width: $sMainMaxSize;
+    margin: 0 auto;
+}
+
+.page-wrapper {
+    margin: 2rem 2rem;
+}
+
+@media screen and (min-width: $sMobileSize) {
+    .page-wrapper {
+        margin: 4rem 3rem;
+    }
+}

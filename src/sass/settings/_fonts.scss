@@ -1,3 +1,59 @@
 // Global fonts variables
 
 // Variables
+$bariolStack: "Bariol", Helvetica, Arial, sans-serif;
+$ptSansStack: "PT Sans", Helvetica, Arial, sans-serif;
+
+// Bariol
+@font-face {
+    font-family: 'Bariol';
+    src: url('#{ $fontPath }bariol/bariol_regular-webfont.eot');
+    src: url('#{ $fontPath }bariol/bariol_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('#{ $fontPath }bariol/bariol_regular-webfont.woff2') format('woff2'),
+         url('#{ $fontPath }bariol/bariol_regular-webfont.woff') format('woff'),
+         url('#{ $fontPath }bariol/bariol_regular-webfont.ttf') format('truetype'),
+         url('#{ $fontPath }bariol/bariol_regular-webfont.svg#bariol_regular-webfont') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bariol';
+    src: url('#{ $fontPath }bariol/bariol_regular_italic-webfont.eot');
+    src: url('#{ $fontPath }bariol/bariol_regular_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('#{ $fontPath }bariol/bariol_regular_italic-webfont.woff2') format('woff2'),
+         url('#{ $fontPath }bariol/bariol_regular_italic-webfont.woff') format('woff'),
+         url('#{ $fontPath }bariol/bariol_regular_italic-webfont.ttf') format('truetype'),
+         url('#{ $fontPath }bariol/bariol_regular_italic-webfont.svg#bariol_regular-webfont') format('svg');
+    font-weight: 400;
+    font-style: italic;
+}
+
+// PT Sans
+@font-face {
+    font-family: 'PT Sans';
+    src: url('#{ $fontPath }PtSans/PtSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('#{ $fontPath }PtSans/PtSans-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('#{ $fontPath }PtSans/PtSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('#{ $fontPath }PtSans/PtSans-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
