@@ -15,6 +15,7 @@ var gulp = require( "gulp" ),
     gCleanCSS = require( "gulp-clean-css" ),
     gESLint = require( "gulp-eslint" ),
     gBabel = require( "gulp-babel" ),
+    jQuery = require( "jquery" ),
     jsSha1 = require( "js-sha1" ),
     gUglify = require( "gulp-uglify" ),
     gRename = require( "gulp-rename" ),
@@ -33,9 +34,25 @@ var sSrc = "src/",
             message: "<%= error.message %>"
         }
     },
-    oCopy = {
-        in: sSrc + "only_copy_to_dest/**/*",
-        out: sDest
+    oDependencies = {
+        jQuery: {
+            in: "node_modules/jquery/dist/jquery.min.js",
+            out: sSrc + "vendors/scripts/"
+        },
+        jsSha1: {
+            in: "node_modules/js-sha1/build/sha1.min.js",
+            out: sSrc + "vendors/scripts/"
+        }
+    },
+    oAssets = {
+        in: sSrc + "assets/**/*",
+        out: sDest + "assets/"
+    },
+    oVendors = {
+        scripts: {
+            in: sSrc + "vendors/scripts/**/*",
+            out: sDest + "scripts/vendors/"
+        }
     },
     oImg = {
         in: sSrc + "img_to_optim/**/*",
@@ -97,20 +114,36 @@ var sSrc = "src/",
         initOpts: {
             proxy: "http://localhost/" + sProjectFolder + sDest
         }
-    },
-    oDependencies = {
-        jsSha1: {
-            in: "node_modules/js-sha1/build/sha1.min.js",
-            out: sSrc + "only_copy_to_dest/scripts/vendors/"
-        }
     };
 
-// Copy tasks
-gulp.task( "copy", function() {
+// Copy jQuery script from node module directory
+gulp.task( "jquery", function() {
     return gulp
-        .src( oCopy.in )
-        // Copy files wich doesn't need any modifications into destination directory
-        .pipe( gulp.dest( oCopy.out ) );
+        .src( oDependencies.jQuery.in )
+        .pipe( gulp.dest( oDependencies.jQuery.out ) );
+} );
+
+// Copy js-sha1 script from node module directory
+gulp.task( "js-sha1", function() {
+    return gulp
+        .src( oDependencies.jsSha1.in )
+        .pipe( gulp.dest( oDependencies.jsSha1.out ) );
+} );
+
+// Assets tasks
+gulp.task( "assets", function() {
+    return gulp
+        .src( oAssets.in )
+        // Copy assets files into destination directory
+        .pipe( gulp.dest( oAssets.out ) );
+} );
+
+// Vendors tasks
+gulp.task( "vendors", function() {
+    return gulp
+        .src( oVendors.scripts.in )
+        // Copy vendors scripts files into destination directory
+        .pipe( gulp.dest( oVendors.scripts.out ) );
 } );
 
 // Images tasks
@@ -160,12 +193,12 @@ gulp.task( "styles", function() {
 } );
 
 // Check es-lint
-gulp.task( "lint", function() {
-    return gulp
-        .src( oScripts.in )
-        .pipe( gESLint() )
-        .pipe( gESLint.format() );
-} );
+// gulp.task( "lint", function() {
+//     return gulp
+//         .src( oScripts.in )
+//         .pipe( gESLint() )
+//         .pipe( gESLint.format() );
+// } );
 
 // Scripts tasks
 gulp.task( "scripts", function() {
@@ -186,26 +219,19 @@ gulp.task( "browser-sync", function() {
     browserSync.init( oBrowserSync.initOpts );
 } );
 
-// Copy js-sha1 script from node module directory
-gulp.task( "js-sha1", function() {
-    return gulp
-        .src( oDependencies.jsSha1.in )
-        .pipe( gulp.dest( oDependencies.jsSha1.out ) );
-} );
-
 // Watching files modifications & reload browser
 gulp.task( "watch", function() {
-    gulp.watch( oCopy.in, [ "copy" ] ).on( "change", browserSync.reload );
+    gulp.watch( oAssets.in, [ "assets" ] ).on( "change", browserSync.reload );
     gulp.watch( oImg.in, [ "img" ] ).on( "change", browserSync.reload );
     gulp.watch( oPHP.in, [ "php" ] ).on( "change", browserSync.reload );
     // gulp.watch( oHTML.in, [ "html" ] ).on( "change", browserSync.reload );
     gulp.watch( oStyles.in, [ "styles" ] ).on( "change", browserSync.reload );
-    gulp.watch( oScripts.in, [ "lint", "scripts" ] ).on( "change", browserSync.reload );
+    gulp.watch( oScripts.in, [ "scripts" ] ).on( "change", browserSync.reload );
 } );
 
 // Create command-line tasks
-gulp.task( "get-dependencies", [ "js-sha1" ] );
+gulp.task( "get-dependencies", [ "jquery", "js-sha1" ] );
 
-gulp.task( "default", [ "get-dependencies", "copy", "img", "php", "styles", "lint", "scripts" ] );
+gulp.task( "default", [ "get-dependencies", "assets", "vendors", "img", "php", "styles", "scripts" ] );
 
 gulp.task( "work", [ "default", "watch", "browser-sync" ] );

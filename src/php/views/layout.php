@@ -15,5 +15,9 @@
         <div class="page-wrapper">
             <?php include( $data[ 'view' ] ); ?>
         </div>
+
+        <script src="./scripts/vendors/jquery.min.js"></script>
+        <script src="./scripts/vendors/sha1.min.js"></script>
+        <script src="./scripts/scripts.min.js"></script>
     </body>
 </html>

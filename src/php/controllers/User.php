@@ -18,7 +18,7 @@ class User {
 
     public function postLogin() {
         $sUser = strtolower( strval( $_POST[ 'user' ] ) );
-        $sPassword = sha1( strval( $_POST[ 'password' ] ) );
+        $sPassword = strval( $_POST[ 'password' ] );  // password in sha1 from client encoded with jQuery
 
         $_SESSION[ 'user' ] = $this->modelsUser->fGetUserDB( $sUser, $sPassword );
         if ( $_SESSION[ 'user' ] !== false ) {
