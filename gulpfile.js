@@ -1,6 +1,6 @@
  /* Gulpfile.js
  /
- /  Last modification 03/08/2017
+ /  Last modification 07/10/2018
 */
 
 "use strict";
@@ -15,6 +15,7 @@ var gulp = require( "gulp" ),
     gCleanCSS = require( "gulp-clean-css" ),
     gESLint = require( "gulp-eslint" ),
     gBabel = require( "gulp-babel" ),
+    jsSha1 = require( "js-sha1" ),
     gUglify = require( "gulp-uglify" ),
     gRename = require( "gulp-rename" ),
     gNotify = require( "gulp-notify" ),
@@ -95,6 +96,12 @@ var sSrc = "src/",
     oBrowserSync = {
         initOpts: {
             proxy: "http://localhost/" + sProjectFolder + sDest
+        }
+    },
+    oDependencies = {
+        jsSha1: {
+            in: "node_modules/js-sha1/build/sha1.min.js",
+            out: sSrc + "only_copy_to_dest/scripts/vendors/"
         }
     };
 
@@ -179,6 +186,13 @@ gulp.task( "browser-sync", function() {
     browserSync.init( oBrowserSync.initOpts );
 } );
 
+// Copy js-sha1 script from node module directory
+gulp.task( "js-sha1", function() {
+    return gulp
+        .src( oDependencies.jsSha1.in )
+        .pipe( gulp.dest( oDependencies.jsSha1.out ) );
+} );
+
 // Watching files modifications & reload browser
 gulp.task( "watch", function() {
     gulp.watch( oCopy.in, [ "copy" ] ).on( "change", browserSync.reload );
@@ -190,6 +204,8 @@ gulp.task( "watch", function() {
 } );
 
 // Create command-line tasks
-gulp.task( "default", [ "copy", "img", "php", "styles", "lint", "scripts" ] );
+gulp.task( "get-dependencies", [ "js-sha1" ] );
+
+gulp.task( "default", [ "get-dependencies", "copy", "img", "php", "styles", "lint", "scripts" ] );
 
 gulp.task( "work", [ "default", "watch", "browser-sync" ] );
